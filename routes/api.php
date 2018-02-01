@@ -15,8 +15,24 @@ use Illuminate\Http\Request;
 
 Route::post('/register', 'Auth\RegisterController@create');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', 'Auth\LoginController@login');
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => ['auth:api']], function(){
+	// Route::resource('/users', 'UserController', ['only' => [
+	// 	'update'
+	// ]]);
+	//--------------USER ROUTES---------------------
+	Route::get('/user', 'UserController@show');
+	Route::get('/user/{id}/deactivate/', 'UserController@deactivate');
+	
+	//--------------POST ROUTES---------------------
+	Route::resource('/posts', 'PostController');
+	Route::get('/hive_posts', 'PostController@getHivePosts');	
+
+	Route::get('/logout', 'Auth\LoginController@logout');
 });
 
-//Route::resource('/registers', 'RegistrationController');

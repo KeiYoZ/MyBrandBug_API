@@ -29,34 +29,35 @@ class User extends Authenticatable
     ];
 
     public function posts(){
-        return $this->hasMany('Post');
+        return $this->hasMany('App\Post');
     }
 
     public function post_reactions(){
-        return $this->hasMany('PostReaction');
+        return $this->hasMany('App\PostReaction');
     }
 
     public function old_passwords(){
-        return $this->hasMany('OldPassword');
+        return $this->hasMany('App\ldPassword');
     }
 
     public function bug_lives(){
-        return $this->hasMany('BugLife');
+        return $this->hasMany('App\BugLife');
     }
 
+    //followed_users
     public function parent_hives(){
-        return $this->belongsToMany('User', 'hives', 'user_id', 'friend_id');
+        return $this->belongsToMany('App\User', 'hives', 'user_id', 'friend_id');
     }
 
     public function children_hives(){
-        return $this->belongsToMany('User', 'hives', 'friend_id', 'user_id');
+        return $this->belongsToMany('App\User', 'hives', 'friend_id', 'user_id');
     }
 
     public function parent_bugs(){
-        return $this->belongsToMany('User', 'bugs', 'user_id', 'friend_id');
+        return $this->belongsToMany('App\User', 'bugs', 'user_id', 'friend_id');
     }
 
     public function children_bugs(){
-        return $this->belongsToMany('User', 'bugs', 'friend_id', 'user_id');
+        return $this->belongsToMany('App\User', 'bugs', 'friend_id', 'user_id');
     }
 }

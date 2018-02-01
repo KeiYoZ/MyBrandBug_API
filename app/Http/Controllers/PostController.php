@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\PostsResource;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,17 +18,25 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        //get all owned posts
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getHivePosts(){
+
+        $followed_users = Auth::user()->parent_hives;
+        
+        $followed_posts = collect();
+        foreach($followed_users as $followed_user){
+            foreach($followed_user->posts as $followed_post){
+                $followed_posts->push($followed_post);    
+            }
+        }
+
+        $date_sorted_posts = $followed_posts->sortByDesc(function($col){
+            return $col;
+        })->values();
+
+        return new PostsResource($date_sorted_posts);
     }
 
     /**
@@ -46,7 +58,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        PostResource::withoutWrapping();
+
+        return new PostResource($post);
     }
 
     /**

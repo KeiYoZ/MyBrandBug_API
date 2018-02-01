@@ -19,15 +19,6 @@ class RegisterController extends Controller
      */
     protected function create(RegisterRequest $register_request)
     {
-        // $new_user = User::create([
-        //     'fname'     => $register_request['fname'],
-        //     'lname'     => $register_request['lname'],
-        //     'email'     => $register_request['email'],
-        //     'password'  => bcrypt($register_request['password']),
-        //     'birthday'  => $register_request['birthday'],
-        //     'gender'    => $register_request['gender'],
-        // ]);
-
         $new_user = new User;
         $new_user->fname = $register_request['fname'];
         $new_user->lname = $register_request['lname'];
@@ -38,10 +29,5 @@ class RegisterController extends Controller
         $new_user->save();
 
         return new RegistrationResource($new_user);
-
-        // return response()->json([
-        //     'success'   => true,
-        //     'message'   => "Registration successful",
-        // ]);
     }
 }
